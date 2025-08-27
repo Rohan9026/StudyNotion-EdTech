@@ -27,11 +27,18 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+// app.use(
+// 	cors({
+// 		origin: "*",
+// 		credentials: true,
+// 	})
+// );
 app.use(
-	cors({
-		origin: "*",
-		credentials: true,
-	})
+  cors({
+    origin: ["http://localhost:3000", "https://study-notion-ed-tech-9237.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+  })
 );
 app.use(
 	fileUpload({
