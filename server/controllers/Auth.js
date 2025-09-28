@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 const otpGenerator = require("otp-generator")
 const mailSender = require("../utils/mailSender")
 const { passwordUpdated } = require("../mail/templates/passwordUpdate")
+const otpTemplate = require("../mail/templates/emailVerificationTemplate");
 const Profile = require("../models/Profile")
 require("dotenv").config()
 
@@ -212,6 +213,11 @@ exports.sendotp = async (req, res) => {
     }
     const otpPayload = { email, otp }
     const otpBody = await OTP.create(otpPayload)
+    await mailSender(
+        email,
+        "OTP Verification Email", // Title from your template
+        otpTemplate(otp)          // Call your template function and pass the OTP
+    );
     console.log("OTP Body", otpBody)
     res.status(200).json({
       success: true,
